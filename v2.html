@@ -254,7 +254,7 @@ button.co:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,120,.
 .choices.nextup .ch-row,.nu,.choices.soft .ch-row{box-sizing:border-box}
 .b360{position:absolute;top:6px;right:6px;z-index:2;background:rgba(0,0,40,.8);color:#73EDFF;font-size:11px;font-weight:900;border-radius:999px;padding:2px 7px;font-style:normal}
 .th{position:relative}
-.player{width:min(1000px,100%,calc((100vh - 380px) * 1.7778));min-width:min(320px,100%)}
+.player{width:min(1000px,100%,calc((100vh - 380px) * 1.7778),calc((100dvh - 380px) * 1.7778));min-width:min(320px,100%)}
 #player{overflow-y:auto;align-items:start;place-items:start center}
 #player .player{margin:auto 0}
 .vchip{width:140px}
@@ -708,7 +708,7 @@ button.co:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,120,.
       cropShot(b.querySelector('.th'), s, i); b.lastChild.textContent = name;
       b.addEventListener('click', () => selectVid(i)); strip.appendChild(b);
     });
-    selectVid(0); show('player'); requestAnimationFrame(fitPlayer);
+    selectVid(0); show('player');
   }
   function selectVid(i) {
     stopVideo(); curIdx = i; cancelNextUp(); $('#choices').hidden = true; $('#frame').classList.remove('ended'); cropShot($('#poster'), curZone, i);
@@ -794,19 +794,6 @@ button.co:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,120,.
   $('#welcomeX').addEventListener('click', hideWelcome);
   wTimer = setTimeout(hideWelcome, 9000);
   document.addEventListener('pointerdown', (e) => { if (!e.target.closest('#welcome')) hideWelcome(); }, { capture: true });
-
-
-  /* ajusta el reproductor perquè hi càpiga sencer (també en navegadors antics o amb zoom) */
-  function fitPlayer() {
-    const pl = document.querySelector('#player .player'); if (!pl || $('#player').hidden) return;
-    pl.style.width = '';
-    for (let k = 0; k < 12; k++) {
-      const r = pl.getBoundingClientRect(), over = Math.max(r.bottom - (window.innerHeight - 16), r.top < 0 ? -r.top : 0);
-      if (over <= 2 || r.width <= 300) break;
-      pl.style.width = Math.max(300, r.width - over * 1.7778 - 4) + 'px';
-    }
-  }
-  window.addEventListener('resize', fitPlayer);
 
   /* ---------- start ---------- */
 
